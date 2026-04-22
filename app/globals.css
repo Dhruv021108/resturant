@@ -1,4 +1,6 @@
 :root {
+  --font-heading: Georgia, "Times New Roman", serif;
+  --font-body: Arial, Helvetica, sans-serif;
   --bg: #090909;
   --surface: rgba(255, 255, 255, 0.08);
   --surface-strong: #131313;
@@ -42,7 +44,7 @@ body {
     radial-gradient(circle at bottom right, rgba(242, 193, 78, 0.16), transparent 24%),
     var(--bg);
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-body);
 }
 
 a {
@@ -75,7 +77,7 @@ img {
   top: 0;
   z-index: 20;
   backdrop-filter: blur(18px);
-  background: rgba(9, 9, 9, 0.78);
+  background: linear-gradient(180deg, rgba(9, 9, 9, 0.92), rgba(9, 9, 9, 0.72));
   border-bottom: 1px solid var(--line);
 }
 
@@ -118,6 +120,17 @@ body[data-theme="light"] .site-header {
 }
 
 .brand strong,
+.hero__copy h1,
+.section-title h2,
+.dish-card h3,
+.info-card h3,
+.metric-card strong,
+.site-footer h3,
+.site-footer h4,
+.brand strong {
+  font-family: var(--font-heading);
+}
+
 .brand span,
 .nav a,
 .header-actions,
@@ -126,8 +139,12 @@ body[data-theme="light"] .site-header {
 .cart-pill,
 .filter-pill,
 .dish-card__tag,
-.badge {
-  font-family: Arial, Helvetica, sans-serif;
+.badge,
+.hero__tagline,
+.hero__subtext,
+.site-footer,
+.chatbot__message {
+  font-family: var(--font-body);
 }
 
 .brand div {
@@ -198,6 +215,25 @@ body[data-theme="light"] .site-header {
 
 .hero {
   padding: 4.5rem 0 2rem;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 38rem;
+  background:
+    linear-gradient(90deg, rgba(9, 9, 9, 0.92) 0%, rgba(9, 9, 9, 0.78) 38%, rgba(9, 9, 9, 0.28) 100%),
+    url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80") center/cover;
+  mask-image: linear-gradient(180deg, black 0%, black 82%, transparent 100%);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero__content,
@@ -210,6 +246,8 @@ body[data-theme="light"] .site-header {
   margin: 0.2rem 0;
   font-size: clamp(2.9rem, 7vw, 5.3rem);
   line-height: 0.96;
+  letter-spacing: -0.04em;
+  max-width: 10ch;
 }
 
 .hero__native {
@@ -220,6 +258,8 @@ body[data-theme="light"] .site-header {
 
 .hero__tagline {
   font-size: clamp(1.25rem, 2vw, 1.7rem);
+  color: #fff7e5;
+  margin: 0 0 0.9rem;
 }
 
 .hero__subtext,
@@ -252,11 +292,14 @@ body[data-theme="light"] .site-header {
   border-radius: 999px;
   padding: 0.95rem 1.4rem;
   cursor: pointer;
-  transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
 
 .button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24);
 }
 
 .button--gold {
@@ -293,7 +336,7 @@ body[data-theme="light"] .site-header {
 .gallery-tile,
 .contact-card {
   border: 1px solid var(--line);
-  background: var(--surface);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
   box-shadow: var(--shadow);
 }
 
@@ -325,6 +368,9 @@ body[data-theme="light"] .site-header {
   max-width: 24rem;
   padding: 2rem;
   animation: float 5s ease-in-out infinite;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05)),
+    rgba(18, 18, 18, 0.72);
 }
 
 .section {
@@ -352,6 +398,8 @@ body[data-theme="light"] .site-header {
 .section-title h2 {
   margin: 0;
   font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
 }
 
 .card-grid,
@@ -365,6 +413,12 @@ body[data-theme="light"] .site-header {
 
 .dish-card {
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dish-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
 }
 
 .dish-card__image {
@@ -372,6 +426,13 @@ body[data-theme="light"] .site-header {
   background-size: cover;
   background-position: center;
   position: relative;
+}
+
+.dish-card__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.08), rgba(10, 10, 10, 0.34));
 }
 
 .dish-card__body,
@@ -416,6 +477,10 @@ body[data-theme="light"] .site-header {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.dish-card__footer {
+  align-items: center;
 }
 
 .badge {
@@ -499,6 +564,8 @@ body[data-theme="light"] .site-header {
   padding: 1.2rem;
   background-size: cover;
   background-position: center;
+  font-size: 1.2rem;
+  font-family: var(--font-heading);
 }
 
 .map-frame iframe {
@@ -710,6 +777,7 @@ body[data-theme="light"] .chatbot__panel {
 .site-footer {
   padding: 2rem 0 3rem;
   border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.16));
 }
 
 .footer-grid {
