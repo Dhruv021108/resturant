@@ -6,6 +6,7 @@ import { SectionTitle } from "@/components/section-title";
 
 export function BookingSection({ standalone = false }) {
   const { createBooking } = useApp();
+  const today = new Date().toISOString().split("T")[0];
   const [form, setForm] = useState({
     date: "",
     time: "",
@@ -32,7 +33,7 @@ export function BookingSection({ standalone = false }) {
           text="Choose date, time, guests, and special requests with instant confirmation."
         />
         <form className="booking-form glass-card" onSubmit={submit}>
-          <input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} required />
+          <input type="date" min={today} value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} required />
           <input type="time" value={form.time} onChange={(e) => setForm({ ...form, time: e.target.value })} required />
           <input
             type="number"
@@ -58,6 +59,7 @@ export function BookingSection({ standalone = false }) {
             <p>
               {confirmation.name}, your table for {confirmation.guests} on {confirmation.date} at {confirmation.time} is confirmed.
             </p>
+            <p>We look forward to hosting you at Amazing Chinese Restaurant.</p>
           </div>
         )}
       </div>

@@ -22,9 +22,9 @@ export function MenuExperience() {
   return (
     <section className="section container">
       <SectionTitle
-        eyebrow="Interactive Menu"
-        title="Search, filter, and order your favorites"
-        text="Browse starters, noodles, soups, combos, desserts, and more with clear badges and price visibility."
+        eyebrow="Menu Overview"
+        title="Explore the restaurant menu by category"
+        text="Browse starters, noodles, soups, combos, desserts, and more with clear highlights and price visibility."
       />
       <div className="menu-toolbar">
         <input

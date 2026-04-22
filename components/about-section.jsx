@@ -7,7 +7,7 @@ export function AboutSection({ standalone = false }) {
         <SectionTitle
           eyebrow="About Us"
           title="A neighborhood restaurant with bold wok flavors"
-          text="Amazing Chinese Restaurant was built to blend family dining warmth with fast, reliable delivery and premium presentation."
+          text="Amazing Chinese Restaurant was built to blend family dining warmth with premium presentation and memorable Chinese comfort food."
         />
         <div className="info-grid">
           <article className="info-card">
@@ -16,7 +16,7 @@ export function AboutSection({ standalone = false }) {
           </article>
           <article className="info-card">
             <h3>Why choose us</h3>
-            <p>Balanced flavors, speedy service, professional packaging, and consistent quality across dine-in and delivery.</p>
+            <p>Balanced flavors, warm hospitality, elegant plating, and consistent quality for every table.</p>
           </article>
           <article className="info-card">
             <h3>Hygiene promise</h3>
@@ -27,8 +27,8 @@ export function AboutSection({ standalone = false }) {
             <p>From crunchy vegetables to aromatic sauces, each plate is prepared to feel vibrant and satisfying.</p>
           </article>
           <article className="info-card">
-            <h3>Fast delivery</h3>
-            <p>Online ordering is streamlined to help customers discover, order, and track meals in minutes.</p>
+            <h3>Comfortable seating</h3>
+            <p>Thoughtful table layouts and a welcoming atmosphere make the space ideal for lunch and dinner outings.</p>
           </article>
           <article className="info-card">
             <h3>Family dining</h3>

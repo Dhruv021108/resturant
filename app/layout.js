@@ -23,7 +23,7 @@ export const metadata = {
   keywords: [
     "Amazing Chinese Restaurant",
     "Chinese food Dombivli",
-    "restaurant ordering",
+    "seat reservation",
     "table booking",
     "Chinese restaurant near me"
   ],
