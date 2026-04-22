@@ -32,6 +32,7 @@ export function DashboardView({ role, allowed }) {
     notifications,
     accounts
   } = useApp();
+  const isAllowed = user ? (user.role === "owner" ? true : user.role === role) : false;
   const [newItem, setNewItem] = useState({
     name: "",
     description: "",
@@ -47,7 +48,7 @@ export function DashboardView({ role, allowed }) {
 
   const customerOrders = useMemo(() => orders.filter((order) => order.customerId === user?.id), [orders, user]);
 
-  if (!allowed) {
+  if (!isAllowed) {
     return (
       <section className="section container">
         <SectionTitle
