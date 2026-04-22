@@ -13,7 +13,7 @@ const links = [
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const { language, setLanguage, theme, setTheme } = useApp();
+  const { language, setLanguage, theme, setTheme, siteMode, adminAuthenticated, adminLogout } = useApp();
 
   return (
     <header className="site-header">
@@ -43,9 +43,19 @@ export function SiteHeader() {
           <button className="mode-toggle" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
             {theme === "dark" ? "Light" : "Dark"}
           </button>
+          {siteMode === "admin" && adminAuthenticated && (
+            <Link href="/admin" className="button button--small button--outline">
+              Admin Panel
+            </Link>
+          )}
           <Link href="/booking" className="button button--small button--gold">
             Reserve Table
           </Link>
+          {siteMode === "admin" && adminAuthenticated && (
+            <button className="button button--small button--ghost" onClick={adminLogout}>
+              Logout
+            </button>
+          )}
         </div>
       </div>
     </header>

@@ -225,7 +225,7 @@ body[data-theme="light"] .site-header {
   height: 38rem;
   background:
     linear-gradient(90deg, rgba(9, 9, 9, 0.92) 0%, rgba(9, 9, 9, 0.78) 38%, rgba(9, 9, 9, 0.28) 100%),
-    url("https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1600&q=80") center/cover;
+    var(--hero-image) center/cover;
   mask-image: linear-gradient(180deg, black 0%, black 82%, transparent 100%);
   opacity: 0.9;
   pointer-events: none;
@@ -805,6 +805,36 @@ body[data-theme="light"] .chatbot__panel {
   margin-top: 1.5rem;
   display: flex;
   justify-content: center;
+}
+
+.access-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 5, 5, 0.7);
+  backdrop-filter: blur(12px);
+  padding: 1rem;
+}
+
+.access-gate__panel {
+  width: min(32rem, 100%);
+  padding: 2rem;
+  text-align: center;
+}
+
+.access-gate__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.admin-edit-card {
+  display: grid;
+  gap: 0.75rem;
 }
 
 @keyframes float {

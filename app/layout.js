@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { AppProvider } from "@/components/app-provider";
+import { AccessGate } from "@/components/access-gate";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
@@ -39,6 +40,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${headingFont.variable} ${bodyFont.variable}`}>
         <AppProvider>
+          <AccessGate />
           <div className="site-shell">
             <SiteHeader />
             <main>{children}</main>

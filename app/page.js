@@ -2,17 +2,18 @@
 
 import Link from "next/link";
 import { useApp } from "@/components/app-provider";
-import { restaurant, testimonials, featuredDishes, instagramShots } from "@/lib/data";
+import { testimonials } from "@/lib/data";
 import { SectionTitle } from "@/components/section-title";
 import { DishCard } from "@/components/dish-card";
 import { MapSection } from "@/components/map-section";
 
 export default function HomePage() {
-  const { t } = useApp();
+  const { t, restaurant, menuItems, galleryShots } = useApp();
+  const featuredDishes = menuItems.slice(0, 4);
 
   return (
     <div>
-      <section className="hero">
+      <section className="hero" style={{ "--hero-image": `url(${restaurant.heroImage})` }}>
         <div className="hero__content container">
           <div className="hero__copy">
             <span className="eyebrow">{restaurant.category}</span>
@@ -48,8 +49,8 @@ export default function HomePage() {
           </div>
           <div className="hero__visual">
             <div className="hero__card glass-card">
-              <p>Tonight at Amazing Chinese</p>
-              <h3>Reserve before 11:30 PM</h3>
+              <p>{restaurant.status}</p>
+              <h3>{restaurant.hours}</h3>
               <span>{restaurant.address}</span>
               <a href={`tel:${restaurant.phone}`} className="button button--small button--gold">
                 Call {restaurant.phone}
@@ -153,7 +154,7 @@ export default function HomePage() {
           text="Showcase signature dishes, table moments, and the warm visual identity of the restaurant."
         />
         <div className="gallery-grid">
-          {instagramShots.map((shot) => (
+          {galleryShots.map((shot) => (
             <div
               key={shot.id}
               className="gallery-tile"

@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
-import { restaurant } from "@/lib/data";
+import { useApp } from "@/components/app-provider";
 
 export function SiteFooter() {
+  const { restaurant } = useApp();
+
   return (
     <footer className="site-footer">
       <div className="container footer-grid">
@@ -25,9 +29,9 @@ export function SiteFooter() {
         </div>
         <div>
           <h4>Contact</h4>
-          <p>Email: hello@amazingchinese.in</p>
-          <p>Open daily until 11:30 PM</p>
-          <p>Premium dining, delivery, and family combos.</p>
+          <p>Email: {restaurant.email}</p>
+          <p>{restaurant.hours}</p>
+          <p>{restaurant.status}</p>
         </div>
       </div>
     </footer>

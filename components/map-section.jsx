@@ -1,7 +1,11 @@
-import { restaurant } from "@/lib/data";
+"use client";
+
+import { useApp } from "@/components/app-provider";
 import { SectionTitle } from "@/components/section-title";
 
 export function MapSection() {
+  const { restaurant } = useApp();
+
   return (
     <section className="section map-section">
       <div className="container split">

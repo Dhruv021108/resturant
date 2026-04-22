@@ -2,15 +2,11 @@
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import {
-  defaultCoupons,
+  adminCredentials,
   defaultMenuItems,
-  defaultOrders,
-  initialAccounts,
   initialBookings,
-  initialNotifications,
-  loyaltyRules,
+  instagramShots,
   restaurant,
-  testimonials,
   translations
 } from "@/lib/data";
 
@@ -19,16 +15,12 @@ const AppContext = createContext(null);
 const STORAGE_KEYS = {
   theme: "acr-theme",
   language: "acr-language",
-  cart: "acr-cart",
-  user: "acr-user",
-  accounts: "acr-accounts",
+  mode: "acr-mode",
+  adminAuth: "acr-admin-auth",
+  restaurant: "acr-restaurant",
   menu: "acr-menu",
-  orders: "acr-orders",
   bookings: "acr-bookings",
-  reviews: "acr-reviews",
-  coupons: "acr-coupons",
-  notifications: "acr-notifications",
-  addresses: "acr-addresses"
+  gallery: "acr-gallery"
 };
 
 function readStorage(key, fallback) {
@@ -45,30 +37,22 @@ function writeStorage(key, value) {
 export function AppProvider({ children }) {
   const [theme, setTheme] = useState("dark");
   const [language, setLanguage] = useState("en");
-  const [cart, setCart] = useState([]);
-  const [user, setUser] = useState(null);
-  const [accounts, setAccounts] = useState(initialAccounts);
+  const [siteMode, setSiteMode] = useState(null);
+  const [adminAuthenticated, setAdminAuthenticated] = useState(false);
+  const [restaurantInfo, setRestaurantInfo] = useState(restaurant);
   const [menuItems, setMenuItems] = useState(defaultMenuItems);
-  const [orders, setOrders] = useState(defaultOrders);
   const [bookings, setBookings] = useState(initialBookings);
-  const [reviews, setReviews] = useState(testimonials);
-  const [coupons, setCoupons] = useState(defaultCoupons);
-  const [notifications, setNotifications] = useState(initialNotifications);
-  const [savedAddresses, setSavedAddresses] = useState([]);
+  const [galleryShots, setGalleryShots] = useState(instagramShots);
 
   useEffect(() => {
     setTheme(readStorage(STORAGE_KEYS.theme, "dark"));
     setLanguage(readStorage(STORAGE_KEYS.language, "en"));
-    setCart(readStorage(STORAGE_KEYS.cart, []));
-    setUser(readStorage(STORAGE_KEYS.user, null));
-    setAccounts(readStorage(STORAGE_KEYS.accounts, initialAccounts));
+    setSiteMode(readStorage(STORAGE_KEYS.mode, null));
+    setAdminAuthenticated(readStorage(STORAGE_KEYS.adminAuth, false));
+    setRestaurantInfo(readStorage(STORAGE_KEYS.restaurant, restaurant));
     setMenuItems(readStorage(STORAGE_KEYS.menu, defaultMenuItems));
-    setOrders(readStorage(STORAGE_KEYS.orders, defaultOrders));
     setBookings(readStorage(STORAGE_KEYS.bookings, initialBookings));
-    setReviews(readStorage(STORAGE_KEYS.reviews, testimonials));
-    setCoupons(readStorage(STORAGE_KEYS.coupons, defaultCoupons));
-    setNotifications(readStorage(STORAGE_KEYS.notifications, initialNotifications));
-    setSavedAddresses(readStorage(STORAGE_KEYS.addresses, []));
+    setGalleryShots(readStorage(STORAGE_KEYS.gallery, instagramShots));
   }, []);
 
   useEffect(() => {
@@ -77,87 +61,34 @@ export function AppProvider({ children }) {
   }, [theme]);
 
   useEffect(() => writeStorage(STORAGE_KEYS.language, language), [language]);
-  useEffect(() => writeStorage(STORAGE_KEYS.cart, cart), [cart]);
-  useEffect(() => writeStorage(STORAGE_KEYS.user, user), [user]);
-  useEffect(() => writeStorage(STORAGE_KEYS.accounts, accounts), [accounts]);
+  useEffect(() => writeStorage(STORAGE_KEYS.mode, siteMode), [siteMode]);
+  useEffect(() => writeStorage(STORAGE_KEYS.adminAuth, adminAuthenticated), [adminAuthenticated]);
+  useEffect(() => writeStorage(STORAGE_KEYS.restaurant, restaurantInfo), [restaurantInfo]);
   useEffect(() => writeStorage(STORAGE_KEYS.menu, menuItems), [menuItems]);
-  useEffect(() => writeStorage(STORAGE_KEYS.orders, orders), [orders]);
   useEffect(() => writeStorage(STORAGE_KEYS.bookings, bookings), [bookings]);
-  useEffect(() => writeStorage(STORAGE_KEYS.reviews, reviews), [reviews]);
-  useEffect(() => writeStorage(STORAGE_KEYS.coupons, coupons), [coupons]);
-  useEffect(() => writeStorage(STORAGE_KEYS.notifications, notifications), [notifications]);
-  useEffect(() => writeStorage(STORAGE_KEYS.addresses, savedAddresses), [savedAddresses]);
+  useEffect(() => writeStorage(STORAGE_KEYS.gallery, galleryShots), [galleryShots]);
 
   const t = (key) => translations[language]?.[key] || translations.en[key] || key;
 
-  const addToCart = (item) => {
-    setCart((current) => {
-      const existing = current.find((entry) => entry.id === item.id);
-      if (existing) {
-        return current.map((entry) =>
-          entry.id === item.id ? { ...entry, quantity: entry.quantity + 1 } : entry
-        );
-      }
-      return [...current, { ...item, quantity: 1 }];
-    });
-  };
-
-  const updateCartQuantity = (itemId, amount) => {
-    setCart((current) =>
-      current
-        .map((item) =>
-          item.id === itemId ? { ...item, quantity: Math.max(item.quantity + amount, 0) } : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
-  };
-
-  const placeOrder = ({ address, paymentMethod, couponCode }) => {
-    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const matchedCoupon = coupons.find(
-      (coupon) => coupon.code.toLowerCase() === couponCode.toLowerCase() && coupon.active
-    );
-    const discount = matchedCoupon ? Math.floor((subtotal * matchedCoupon.discountPercent) / 100) : 0;
-    const total = subtotal - discount;
-    const pointsEarned = Math.floor(total / loyaltyRules.pointsPerRupee);
-    const newOrder = {
-      id: `ORD-${Date.now()}`,
-      customerName: user?.name || "Guest",
-      customerId: user?.id || "guest",
-      items: cart,
-      subtotal,
-      discount,
-      total,
-      status: "Preparing",
-      paymentMethod,
-      address,
-      createdAt: new Date().toLocaleString(),
-      couponCode,
-      pointsEarned
-    };
-    setOrders((current) => [newOrder, ...current]);
-    if (user) {
-      setAccounts((current) =>
-        current.map((account) =>
-          account.id === user.id
-            ? { ...account, loyaltyPoints: (account.loyaltyPoints || 0) + pointsEarned }
-            : account
-        )
-      );
-      setUser((current) =>
-        current ? { ...current, loyaltyPoints: (current.loyaltyPoints || 0) + pointsEarned } : current
-      );
+  const chooseMode = (mode) => {
+    setSiteMode(mode);
+    if (mode !== "admin") {
+      setAdminAuthenticated(false);
     }
-    setNotifications((current) => [
-      {
-        id: `note-${Date.now()}`,
-        message: `New order placed: ${newOrder.id}`,
-        time: "Just now"
-      },
-      ...current
-    ]);
-    setCart([]);
-    return newOrder;
+  };
+
+  const adminLogin = ({ id, password }) => {
+    const isValid = id === adminCredentials.id && password === adminCredentials.password;
+    setAdminAuthenticated(isValid);
+    if (isValid) {
+      setSiteMode("admin");
+    }
+    return isValid;
+  };
+
+  const adminLogout = () => {
+    setAdminAuthenticated(false);
+    setSiteMode(null);
   };
 
   const createBooking = (booking) => {
@@ -170,123 +101,51 @@ export function AppProvider({ children }) {
     return entry;
   };
 
-  const addReview = (review) => {
-    const entry = {
-      id: `RV-${Date.now()}`,
-      ...review
-    };
-    setReviews((current) => [entry, ...current]);
-  };
-
-  const signup = ({ name, phone, email, password }) => {
-    const account = {
-      id: `USR-${Date.now()}`,
-      name,
-      phone,
-      email,
-      password,
-      role: "customer",
-      loyaltyPoints: 0
-    };
-    setAccounts((current) => [...current, account]);
-    setUser(account);
-    return account;
-  };
-
-  const login = ({ email, password, role }) => {
-    const match = accounts.find(
-      (account) =>
-        account.email.toLowerCase() === email.toLowerCase() &&
-        account.password === password &&
-        account.role === role
-    );
-    if (!match) return null;
-    setUser(match);
-    return match;
-  };
-
-  const logout = () => setUser(null);
-
-  const saveAddress = (address) => {
-    if (!address) return;
-    setSavedAddresses((current) => Array.from(new Set([address, ...current])));
-  };
-
-  const updateOrderStatus = (orderId, status) => {
-    setOrders((current) => current.map((order) => (order.id === orderId ? { ...order, status } : order)));
-  };
-
   const updateBookingStatus = (bookingId, status) => {
     setBookings((current) =>
       current.map((booking) => (booking.id === bookingId ? { ...booking, status } : booking))
     );
   };
 
-  const updateMenuItem = (nextItem) => {
-    setMenuItems((current) => current.map((item) => (item.id === nextItem.id ? nextItem : item)));
+  const updateRestaurantField = (field, value) => {
+    setRestaurantInfo((current) => ({ ...current, [field]: value }));
   };
 
-  const createMenuItem = (item) => {
-    const nextItem = { ...item, id: `MENU-${Date.now()}` };
-    setMenuItems((current) => [nextItem, ...current]);
+  const updateMenuItem = (itemId, field, value) => {
+    setMenuItems((current) =>
+      current.map((item) => (item.id === itemId ? { ...item, [field]: value } : item))
+    );
   };
 
-  const deleteMenuItem = (itemId) => {
-    setMenuItems((current) => current.filter((item) => item.id !== itemId));
-  };
-
-  const addCoupon = (coupon) => {
-    setCoupons((current) => [{ ...coupon, id: `CP-${Date.now()}` }, ...current]);
+  const updateGalleryShot = (shotId, field, value) => {
+    setGalleryShots((current) =>
+      current.map((shot) => (shot.id === shotId ? { ...shot, [field]: value } : shot))
+    );
   };
 
   const contextValue = useMemo(
     () => ({
-      restaurant,
       t,
       theme,
       setTheme,
       language,
       setLanguage,
-      cart,
-      addToCart,
-      updateCartQuantity,
-      placeOrder,
-      user,
-      signup,
-      login,
-      logout,
+      siteMode,
+      chooseMode,
+      adminAuthenticated,
+      adminLogin,
+      adminLogout,
+      restaurant: restaurantInfo,
+      updateRestaurantField,
       menuItems,
-      createMenuItem,
       updateMenuItem,
-      deleteMenuItem,
-      orders,
-      updateOrderStatus,
       bookings,
       createBooking,
       updateBookingStatus,
-      reviews,
-      addReview,
-      coupons,
-      addCoupon,
-      notifications,
-      savedAddresses,
-      saveAddress,
-      accounts
+      galleryShots,
+      updateGalleryShot
     }),
-    [
-      language,
-      theme,
-      cart,
-      user,
-      menuItems,
-      orders,
-      bookings,
-      reviews,
-      coupons,
-      notifications,
-      savedAddresses,
-      accounts
-    ]
+    [theme, language, siteMode, adminAuthenticated, restaurantInfo, menuItems, bookings, galleryShots]
   );
 
   return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;
