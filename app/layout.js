@@ -3,8 +3,6 @@ import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { AppProvider } from "@/components/app-provider";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ChatbotWidget } from "@/components/chatbot-widget";
-import { FloatingActions } from "@/components/floating-actions";
 
 const headingFont = Cormorant_Garamond({
   subsets: ["latin"],
@@ -19,9 +17,9 @@ const bodyFont = Manrope({
 });
 
 export const metadata = {
-  title: "Amazing Chinese Restaurant | Best Chinese Food Near You",
+  title: "Amazing Chinese Restaurant | Reserve Your Table",
   description:
-    "Premium Chinese restaurant website with online ordering, bookings, reviews, multilingual support, and admin dashboards.",
+    "Premium Chinese restaurant website focused on table reservations, menu highlights, and the restaurant experience.",
   keywords: [
     "Amazing Chinese Restaurant",
     "Chinese food Dombivli",
@@ -45,8 +43,6 @@ export default function RootLayout({ children }) {
             <SiteHeader />
             <main>{children}</main>
             <SiteFooter />
-            <FloatingActions />
-            <ChatbotWidget />
           </div>
         </AppProvider>
       </body>

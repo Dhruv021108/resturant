@@ -14,7 +14,6 @@ export function SiteFooter() {
         <div>
           <h4>Explore</h4>
           <Link href="/menu">Menu</Link>
-          <Link href="/order">Order Online</Link>
           <Link href="/booking">Book a Table</Link>
           <Link href="/about">About Us</Link>
         </div>

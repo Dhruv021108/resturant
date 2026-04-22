@@ -20,18 +20,15 @@ export default function HomePage() {
             <p className="hero__native">{restaurant.hindiName}</p>
             <p className="hero__tagline">{t("tagline")}</p>
             <p className="hero__subtext">
-              Crafted wok-fresh noodles, spicy gravies, sizzling momos, and family-style
-              comfort meals in the heart of Dombivli / Kopar East.
+              A warm Chinese dining destination in Dombivli with signature noodles, sizzling
+              starters, comforting family meals, and an atmosphere made for evening outings.
             </p>
             <div className="hero__actions">
-              <Link href="/order" className="button button--gold">
-                {t("orderNow")}
+              <Link href="/booking" className="button button--gold">
+                Reserve Your Table
               </Link>
-              <Link href="/booking" className="button button--ghost">
-                {t("bookTable")}
-              </Link>
-              <Link href="/menu" className="button button--outline">
-                {t("viewMenu")}
+              <Link href="/menu" className="button button--ghost">
+                Explore Menu
               </Link>
             </div>
             <div className="hero__stats">
@@ -51,8 +48,8 @@ export default function HomePage() {
           </div>
           <div className="hero__visual">
             <div className="hero__card glass-card">
-              <p>Open now</p>
-              <h3>Closes 11:30 PM</h3>
+              <p>Tonight at Amazing Chinese</p>
+              <h3>Reserve before 11:30 PM</h3>
               <span>{restaurant.address}</span>
               <a href={`tel:${restaurant.phone}`} className="button button--small button--gold">
                 Call {restaurant.phone}
@@ -64,14 +61,19 @@ export default function HomePage() {
 
       <section className="section container">
         <SectionTitle
-          eyebrow="Popular Dishes"
+          eyebrow="Menu Highlights"
           title="Signature plates your guests keep reordering"
-          text="Fast-loading visuals, clear pricing, and bestselling highlights help drive more orders."
+          text="A curated overview of the dishes that define the restaurant, from crisp starters to wok-tossed noodles."
         />
         <div className="card-grid">
           {featuredDishes.map((dish) => (
-            <DishCard key={dish.id} item={dish} />
+            <DishCard key={dish.id} item={dish} compact />
           ))}
+        </div>
+        <div className="section-cta">
+          <Link href="/menu" className="button button--outline">
+            View Full Menu
+          </Link>
         </div>
       </section>
 
@@ -79,27 +81,27 @@ export default function HomePage() {
         <div className="container split">
           <div>
             <SectionTitle
-              eyebrow="Why Choose Us"
-              title="Premium dining with delivery speed"
-              text="Every touchpoint is designed for discovery, trust, and repeat orders."
+              eyebrow="Restaurant Overview"
+              title="A premium dining space with bold Chinese flavors"
+              text="Designed for family dinners, casual celebrations, and comforting evening meals with consistent quality and warm service."
             />
             <div className="feature-list">
               <article className="glass-card">
                 <h3>Fresh ingredients</h3>
-                <p>Daily-prepped vegetables, sauces, and proteins for better flavor and consistency.</p>
-              </article>
-              <article className="glass-card">
-                <h3>Hygiene promise</h3>
-                <p>Clean kitchen standards, careful packing, and quality checks before dispatch.</p>
+                <p>Daily-prepped vegetables, aromatic sauces, and balanced spice in every dish.</p>
               </article>
               <article className="glass-card">
                 <h3>Family dining</h3>
-                <p>Comfortable seating, shareable combos, and menu variety for every age group.</p>
+                <p>Comfortable seating, shareable portions, and a welcoming atmosphere for every guest.</p>
+              </article>
+              <article className="glass-card">
+                <h3>Hygiene promise</h3>
+                <p>Clean kitchen standards, careful preparation, and a service experience built on trust.</p>
               </article>
             </div>
           </div>
           <div className="glass-card review-spotlight">
-            <p className="eyebrow">Customer Love</p>
+            <p className="eyebrow">Guest Impressions</p>
             {testimonials.slice(0, 3).map((review) => (
               <div className="review-snippet" key={review.id}>
                 <strong>{review.name}</strong>
@@ -107,36 +109,38 @@ export default function HomePage() {
                 <p>{review.comment}</p>
               </div>
             ))}
-            <Link href="/reviews" className="text-link">
-              Explore all reviews
-            </Link>
           </div>
         </div>
       </section>
 
       <section className="section container">
         <SectionTitle
-          eyebrow="Ordering Experience"
-          title="Built to increase online orders"
-          text="WhatsApp quick actions, coupon-ready checkout, live order tracking, and loyalty points all in one flow."
+          eyebrow="Reservation Experience"
+          title="Simple seat reservation for lunch and dinner"
+          text="Choose your date, time, guest count, and any special request in a smooth booking flow."
         />
         <div className="info-grid">
           <article className="info-card">
-            <h3>Quick order</h3>
-            <p>Add items, edit quantity, apply coupons, and check out with COD, UPI, or Card.</p>
+            <h3>Easy booking</h3>
+            <p>Select your date, preferred time, and party size in just a few steps.</p>
           </article>
           <article className="info-card">
-            <h3>Live tracking</h3>
-            <p>Customers can follow each order through Preparing, Out for Delivery, and Delivered.</p>
+            <h3>Special requests</h3>
+            <p>Share birthday setups, seating preferences, or family dining needs with the team.</p>
           </article>
           <article className="info-card">
-            <h3>Bookings</h3>
-            <p>Reserve tables by date, time, party size, and special request with instant confirmation.</p>
+            <h3>Direct contact</h3>
+            <p>Call the restaurant directly for urgent reservations or large group arrangements.</p>
           </article>
           <article className="info-card">
-            <h3>Bot support</h3>
-            <p>Menu discovery, combo suggestions, location answers, and booking help from the built-in chat assistant.</p>
+            <h3>Ideal for evenings</h3>
+            <p>Perfect for casual dining, weekend family meals, and cozy Chinese comfort food outings.</p>
           </article>
+        </div>
+        <div className="section-cta">
+          <Link href="/booking" className="button button--gold">
+            Book Your Seat
+          </Link>
         </div>
       </section>
 
@@ -144,54 +148,9 @@ export default function HomePage() {
 
       <section className="section container">
         <SectionTitle
-          eyebrow="Extras"
-          title="QR menu, direct contact, and offer capture"
-          text="Useful business tools are surfaced prominently so guests can order faster and stay engaged."
-        />
-        <div className="info-grid">
-          <article className="info-card">
-            <h3>QR Menu</h3>
-            <p>Display this block on tables or packaging so customers can scan and open the live menu instantly.</p>
-            <div className="qr-card">
-              <div className="qr-pattern" />
-              <span>Scan for Menu</span>
-            </div>
-          </article>
-          <article className="info-card">
-            <h3>Contact Form</h3>
-            <p>Email inquiries, catering requests, and customer messages can be collected from the website.</p>
-            <form className="mini-contact-form">
-              <input placeholder="Your email" />
-              <textarea placeholder="Tell us how we can help" />
-              <button type="button" className="button button--gold">Send Inquiry</button>
-            </form>
-          </article>
-          <article className="info-card">
-            <h3>Loyalty & Deals</h3>
-            <p>Reward repeat customers with points, coupon drops, and timely promo announcements.</p>
-            <ul className="simple-list">
-              <li>Coupon: WOK10</li>
-              <li>Loyalty: 1 point per Rs.10 spent</li>
-              <li>Notifications for order and offers</li>
-            </ul>
-          </article>
-          <article className="info-card">
-            <h3>Payments Ready</h3>
-            <p>UI is prepared for Cash on Delivery, UPI, Card, and later Razorpay or Stripe integration.</p>
-            <ul className="simple-list">
-              <li>Checkout with address saving</li>
-              <li>Discount-aware totals</li>
-              <li>Delivery status updates</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section className="section container">
-        <SectionTitle
-          eyebrow="Instagram Gallery"
-          title="A feed-ready brand presence"
-          text="Use these sections to showcase atmosphere, signature dishes, and social proof."
+          eyebrow="Gallery"
+          title="A look at the food and atmosphere"
+          text="Showcase signature dishes, table moments, and the warm visual identity of the restaurant."
         />
         <div className="gallery-grid">
           {instagramShots.map((shot) => (

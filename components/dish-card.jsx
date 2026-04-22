@@ -1,10 +1,6 @@
 "use client";
 
-import { useApp } from "@/components/app-provider";
-
-export function DishCard({ item }) {
-  const { addToCart } = useApp();
-
+export function DishCard({ item, compact = false }) {
   return (
     <article className="dish-card">
       <div className="dish-card__image" style={{ backgroundImage: `url(${item.image})` }}>
@@ -19,9 +15,7 @@ export function DishCard({ item }) {
         <p>{item.description}</p>
         <div className="dish-card__footer">
           <strong>Rs.{item.price}</strong>
-          <button className="button button--small button--gold" onClick={() => addToCart(item)}>
-            Add to Cart
-          </button>
+          {!compact && <span className="dish-card__note">Chef favorite</span>}
         </div>
       </div>
     </article>

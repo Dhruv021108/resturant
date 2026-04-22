@@ -7,15 +7,13 @@ import { useApp } from "@/components/app-provider";
 const links = [
   ["Home", "/"],
   ["Menu", "/menu"],
-  ["Order", "/order"],
   ["Booking", "/booking"],
-  ["Reviews", "/reviews"],
   ["About", "/about"]
 ];
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const { language, setLanguage, theme, setTheme, user, logout, cart } = useApp();
+  const { language, setLanguage, theme, setTheme } = useApp();
 
   return (
     <header className="site-header">
@@ -45,23 +43,9 @@ export function SiteHeader() {
           <button className="mode-toggle" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
             {theme === "dark" ? "Light" : "Dark"}
           </button>
-          <Link href="/order" className="cart-pill">
-            Cart {cart.reduce((sum, item) => sum + item.quantity, 0)}
+          <Link href="/booking" className="button button--small button--gold">
+            Reserve Table
           </Link>
-          {user ? (
-            <>
-              <Link href={`/dashboard/${user.role}`} className="button button--small button--gold">
-                {user.role}
-              </Link>
-              <button className="button button--small button--outline" onClick={logout}>
-                Logout
-              </button>
-            </>
-          ) : (
-            <Link href="/login" className="button button--small button--gold">
-              Login
-            </Link>
-          )}
         </div>
       </div>
     </header>

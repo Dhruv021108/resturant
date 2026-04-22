@@ -483,6 +483,12 @@ body[data-theme="light"] .site-header {
   align-items: center;
 }
 
+.dish-card__note {
+  color: var(--accent-2);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
 .badge {
   padding: 0.35rem 0.7rem;
   border-radius: 999px;
@@ -793,6 +799,12 @@ body[data-theme="light"] .chatbot__panel {
 
 .text-link {
   color: var(--accent-2);
+}
+
+.section-cta {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
 }
 
 @keyframes float {
